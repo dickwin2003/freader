@@ -32,7 +32,6 @@ dependencies:
 
   # JSON 序列化
   json_annotation: ^4.9.0
-  freezed_annotation: ^2.4.4
 
   # 解析
   html: ^0.15.5
@@ -71,7 +70,6 @@ dev_dependencies:
   build_runner: ^2.4.14
   drift_dev: ^2.22.1
   json_serializable: ^6.9.4
-  freezed: ^2.5.7
   riverpod_generator: ^2.6.3
 
   # 测试
