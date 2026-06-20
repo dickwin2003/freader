@@ -40,6 +40,9 @@ android {
     buildTypes {
         release {
             signingConfig = signingConfigs.getByName("debug")
+            // 暂关 R8 混淆：避免未引入的 ML Kit(日韩/梵文)/MediaPipe proto 缺失类导致 minify 失败
+            isMinifyEnabled = false
+            isShrinkResources = false
         }
     }
 }
