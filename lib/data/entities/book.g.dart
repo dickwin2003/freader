@@ -1,0 +1,73 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'book.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+Book _$BookFromJson(Map<String, dynamic> json) => Book(
+  bookUrl: json['bookUrl'] as String,
+  tocUrl: json['tocUrl'] as String,
+  origin: json['origin'] as String,
+  originName: json['originName'] as String,
+  name: json['name'] as String,
+  author: json['author'] as String,
+  kind: json['kind'] as String?,
+  customTag: json['customTag'] as String?,
+  coverUrl: json['coverUrl'] as String?,
+  customCoverUrl: json['customCoverUrl'] as String?,
+  intro: json['intro'] as String?,
+  customIntro: json['customIntro'] as String?,
+  charset: json['charset'] as String?,
+  type: (json['type'] as num?)?.toInt() ?? BookType.text,
+  group: (json['group'] as num?)?.toInt() ?? 0,
+  latestChapterTitle: json['latestChapterTitle'] as String?,
+  latestChapterTime: (json['latestChapterTime'] as num?)?.toInt(),
+  totalChapterNum: (json['totalChapterNum'] as num?)?.toInt() ?? 0,
+  durChapterIndex: (json['durChapterIndex'] as num?)?.toInt() ?? 0,
+  durChapterTitle: json['durChapterTitle'] as String?,
+  durChapterPos: (json['durChapterPos'] as num?)?.toInt() ?? 0,
+  durChapterTime: (json['durChapterTime'] as num?)?.toInt() ?? 0,
+  wordCount: json['wordCount'] as String?,
+  canUpdate: json['canUpdate'] as bool? ?? true,
+  variable: json['variable'] as String?,
+  readConfig: json['readConfig'] as String?,
+  syncTime: (json['syncTime'] as num?)?.toInt(),
+  local: json['local'] as bool? ?? false,
+  inBookshelf: json['inBookshelf'] as bool? ?? false,
+  score: (json['score'] as num?)?.toInt() ?? 0,
+);
+
+Map<String, dynamic> _$BookToJson(Book instance) => <String, dynamic>{
+  'bookUrl': instance.bookUrl,
+  'tocUrl': instance.tocUrl,
+  'origin': instance.origin,
+  'originName': instance.originName,
+  'name': instance.name,
+  'author': instance.author,
+  'kind': instance.kind,
+  'customTag': instance.customTag,
+  'coverUrl': instance.coverUrl,
+  'customCoverUrl': instance.customCoverUrl,
+  'intro': instance.intro,
+  'customIntro': instance.customIntro,
+  'charset': instance.charset,
+  'type': instance.type,
+  'group': instance.group,
+  'latestChapterTitle': instance.latestChapterTitle,
+  'latestChapterTime': instance.latestChapterTime,
+  'totalChapterNum': instance.totalChapterNum,
+  'durChapterIndex': instance.durChapterIndex,
+  'durChapterTitle': instance.durChapterTitle,
+  'durChapterPos': instance.durChapterPos,
+  'durChapterTime': instance.durChapterTime,
+  'wordCount': instance.wordCount,
+  'canUpdate': instance.canUpdate,
+  'variable': instance.variable,
+  'readConfig': instance.readConfig,
+  'syncTime': instance.syncTime,
+  'local': instance.local,
+  'inBookshelf': instance.inBookshelf,
+  'score': instance.score,
+};

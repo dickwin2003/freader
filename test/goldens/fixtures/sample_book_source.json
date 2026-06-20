@@ -1,0 +1,110 @@
+[
+  {
+    "bookSourceComment": "",
+    "bookSourceGroup": "测试",
+    "bookSourceName": "笔趣阁(xbiquge.so)",
+    "bookSourceType": 0,
+    "bookSourceUrl": "https://www.xbiquge.so",
+    "bookUrlPattern": "https://www.xbiquge.so/book/.*",
+    "concurrentRate": "",
+    "customOrder": 10,
+    "enabled": true,
+    "enabledCookieJar": false,
+    "enabledExplore": false,
+    "enabledReview": false,
+    "exploreUrl": "",
+    "header": "",
+    "lastUpdateTime": 1663116475189,
+    "loginCheckJs": "",
+    "loginUi": "",
+    "loginUrl": "https://www.xbiquge.so/",
+    "respondTime": 180000,
+    "ruleBookInfo": {
+      "author": "@css:meta[property=\"og:novel:author\"] @content",
+      "coverUrl": "@css:meta[property=\"og:image\"] @content",
+      "intro": "@css:meta[property=\"og:description\"] @content",
+      "kind": "{{@css:meta[property=\"og:novel:status\"] @content}}\n{{@css:meta[property=\"og:novel:category\"] @content}}",
+      "lastChapter": "{{@css:meta[property=\"og:novel:latest_chapter_name\"] @content}} ({{@css:meta[property=\"og:novel:update_time\"] @content}})",
+      "name": "@css:meta[property=\"og:novel:book_name\"] @content",
+      "wordCount": "@css:div#info > p:nth-of-type(3) @text ##.*共(.*字).*##$1"
+    },
+    "ruleContent": {
+      "content": "@css:div#content @html",
+      "replaceRegex": "##^.*笔趣阁.*?\\n"
+    },
+    "ruleExplore": {},
+    "ruleSearch": {
+      "author": "@css:span.s4 @text",
+      "bookList": "@css:div.novelslistss > li",
+      "bookUrl": "@css:span.s2 > a @href",
+      "kind": "@css:span.s1 @text",
+      "lastChapter": "{{@css:span.s3 @text}} ({{@css:span.s5 @text}})",
+      "name": "@css:span.s2 @text"
+    },
+    "ruleToc": {
+      "chapterList": "//div[@id=\"list\"]/dl/dt[2]/following-sibling::dd/a",
+      "chapterName": "text",
+      "chapterUrl": "href"
+    },
+    "searchUrl": "/modules/article/search.php?searchkey={{java.encodeURI(key, \"gbk\")}}",
+    "weight": 0
+  },
+  {
+    "bookSourceComment": "",
+    "bookSourceGroup": "漫画",
+    "bookSourceName": "拷貝漫畫H5",
+    "bookSourceType": 0,
+    "bookSourceUrl": "https://www.copymanga.site/h5",
+    "bookUrlPattern": "https://api.copymanga.info/api/v3/comic2/.*",
+    "customOrder": 200,
+    "enabled": true,
+    "enabledCookieJar": false,
+    "enabledExplore": true,
+    "enabledReview": false,
+    "exploreUrl": "[{\"title\":\"日榜\",\"url\":\"https://api.copymanga.info/api/v3/ranks?date_type=day\"}]",
+    "header": "{\"region\":\"1\",\"platform\":\"1\"}",
+    "lastUpdateTime": 1676443834065,
+    "loginUrl": "https://www.copymanga.site/h5/init",
+    "respondTime": 180000,
+    "ruleBookInfo": {
+      "author": "$.results.comic.author[*]name ##\\s##,",
+      "canReName": "true",
+      "coverUrl": "$.results.comic.cover",
+      "intro": "$.results.comic.brief",
+      "kind": "{{$.results.comic.status.display}}\n{{$.results.comic.theme[*]name}}",
+      "lastChapter": "$.results.comic.last_chapter.name",
+      "name": "$.results.comic.name",
+      "tocUrl": "https://api.copymanga.info/api/v3/comic/{{$.results.comic.path_word}}/group/default/chapters?limit=500&offset=0",
+      "wordCount": "{{$.results.comic.popular}}🔥"
+    },
+    "ruleContent": {
+      "content": "$.results.chapter.contents[*]url ##(https://.*)##![Image 1]($1)",
+      "imageStyle": "FULL"
+    },
+    "ruleExplore": {
+      "author": "$.comic.author[*].name ##\\s##,",
+      "bookList": "$.results.list[*]",
+      "bookUrl": "https://api.copymanga.info/api/v3/comic2/{{$.comic.path_word}}",
+      "coverUrl": "$.comic.cover",
+      "name": "$.comic.name",
+      "wordCount": "{{$.comic.popular}}🔥"
+    },
+    "ruleSearch": {
+      "author": "$.author[*]name ##\\s##,",
+      "bookList": "$.results.list[*]",
+      "bookUrl": "https://api.copymanga.info/api/v3/comic2/{{$.path_word}}",
+      "coverUrl": "$.cover",
+      "intro": "$.alias",
+      "name": "$.name",
+      "wordCount": "{{$.popular}}🔥"
+    },
+    "ruleToc": {
+      "chapterList": "$.results.list[*]",
+      "chapterName": "$.name",
+      "chapterUrl": "https://api.copymanga.info/api/v3/comic/{{$.comic_path_word}}/chapter/{{$.uuid}}",
+      "updateTime": "{{$.size}}页 更新时间：{{$.datetime_created}}"
+    },
+    "searchUrl": "https://api.copymanga.info/api/v3/search/comic?q={{key}}&limit=20&offset=0",
+    "weight": 0
+  }
+]

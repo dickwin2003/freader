@@ -1,0 +1,71 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'rss_source.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+RssSource _$RssSourceFromJson(Map<String, dynamic> json) => RssSource(
+  sourceUrl: json['sourceUrl'] as String,
+  sourceName: json['sourceName'] as String,
+  sourceIcon: json['sourceIcon'] as String?,
+  sourceGroup: json['sourceGroup'] as String?,
+  customOrder: (json['customOrder'] as num?)?.toInt() ?? 0,
+  enabled: json['enabled'] as bool? ?? true,
+  enabledCookieJar: json['enabledCookieJar'] as bool? ?? false,
+  concurrentRate: json['concurrentRate'] as String?,
+  header: json['header'] as String?,
+  loginUrl: json['loginUrl'] as String?,
+  loginUi: json['loginUi'] as String?,
+  loginCheckJs: json['loginCheckJs'] as String?,
+  ruleArticles: json['ruleArticles'] as String?,
+  ruleNextPage: json['ruleNextPage'] as String?,
+  ruleTitle: json['ruleTitle'] as String?,
+  rulePubDate: json['rulePubDate'] as String?,
+  ruleDescription: json['ruleDescription'] as String?,
+  ruleImage: json['ruleImage'] as String?,
+  ruleContent: json['ruleContent'] as String?,
+  ruleLink: json['ruleLink'] as String?,
+  ruleCategories: json['ruleCategories'] as String?,
+  sortUrl: json['sortUrl'] as String?,
+  articleStyle: (json['articleStyle'] as num?)?.toInt() ?? 0,
+  singleUrl: json['singleUrl'] as bool? ?? false,
+  enableJs: json['enableJs'] as bool? ?? false,
+  loadWithBaseUrl: json['loadWithBaseUrl'] as bool? ?? false,
+  jsLib: json['jsLib'] as String?,
+  variable: json['variable'] as String?,
+  lastUpdateTime: (json['lastUpdateTime'] as num?)?.toInt(),
+);
+
+Map<String, dynamic> _$RssSourceToJson(RssSource instance) => <String, dynamic>{
+  'sourceUrl': instance.sourceUrl,
+  'sourceName': instance.sourceName,
+  'sourceIcon': instance.sourceIcon,
+  'sourceGroup': instance.sourceGroup,
+  'customOrder': instance.customOrder,
+  'enabled': instance.enabled,
+  'enabledCookieJar': instance.enabledCookieJar,
+  'concurrentRate': instance.concurrentRate,
+  'header': instance.header,
+  'loginUrl': instance.loginUrl,
+  'loginUi': instance.loginUi,
+  'loginCheckJs': instance.loginCheckJs,
+  'ruleArticles': instance.ruleArticles,
+  'ruleNextPage': instance.ruleNextPage,
+  'ruleTitle': instance.ruleTitle,
+  'rulePubDate': instance.rulePubDate,
+  'ruleDescription': instance.ruleDescription,
+  'ruleImage': instance.ruleImage,
+  'ruleContent': instance.ruleContent,
+  'ruleLink': instance.ruleLink,
+  'ruleCategories': instance.ruleCategories,
+  'sortUrl': instance.sortUrl,
+  'articleStyle': instance.articleStyle,
+  'singleUrl': instance.singleUrl,
+  'enableJs': instance.enableJs,
+  'loadWithBaseUrl': instance.loadWithBaseUrl,
+  'jsLib': instance.jsLib,
+  'variable': instance.variable,
+  'lastUpdateTime': instance.lastUpdateTime,
+};

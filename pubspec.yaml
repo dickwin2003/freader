@@ -1,0 +1,90 @@
+name: freader
+description: "FReader - 跨平台阅读器，支持本地与在线书籍、AI 助手、翻译、OCR、笔记"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.12.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # UI
+  cupertino_icons: ^1.0.8
+  material_color_utilities: ^0.13.0
+
+  # 状态管理 + DI
+  flutter_riverpod: ^2.6.1
+  riverpod_annotation: ^2.6.1
+
+  # 路由
+  go_router: ^14.8.1
+
+  # 数据库
+  drift: ^2.22.1
+  sqlite3_flutter_libs: ^0.5.28
+
+  # 网络
+  dio: ^5.7.0
+  dio_cookie_manager: ^3.2.0
+  cookie_jar: ^4.0.8
+
+  # JSON 序列化
+  json_annotation: ^4.9.0
+  freezed_annotation: ^2.4.4
+
+  # 解析
+  html: ^0.15.5
+
+  # 工具
+  path: ^1.9.1
+  path_provider: ^2.1.5
+  shared_preferences: ^2.3.4
+  url_launcher: ^6.3.1
+  logger: ^2.5.0
+  intl: ^0.19.0
+  collection: ^1.19.1
+
+  # 本地文件支持
+  charset: ^2.0.1
+  permission_handler: ^11.3.1
+  epubx: ^4.0.0
+  pdfrx: ^1.0.0
+  archive: ^3.6.1
+  ffi: ^2.1.0
+  flutter_gemma: ^0.12.6
+  image_picker: ^1.2.2
+  speech_to_text: ^7.4.0
+  flutter_tts: ^4.2.5
+  google_mlkit_text_recognition: ^0.15.1
+  just_audio: ^0.10.5
+  web_socket_channel: ^3.0.3
+  cached_network_image: ^3.4.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+  # 代码生成
+  build_runner: ^2.4.14
+  drift_dev: ^2.22.1
+  json_serializable: ^6.9.4
+  freezed: ^2.5.7
+  riverpod_generator: ^2.6.3
+
+  # 测试
+  mocktail: ^1.0.4
+  flutter_launcher_icons: ^0.9.3
+  image: ^3.3.0
+
+flutter_icons:
+  android: true
+  ios: false
+  image_path: "assets/icon.png"
+  adaptive_icon_background: "#5D4037"
+  adaptive_icon_foreground: "assets/icon.png"
+
+flutter:
+  uses-material-design: true

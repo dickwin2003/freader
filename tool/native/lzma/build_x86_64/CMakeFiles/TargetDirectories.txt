@@ -1,0 +1,3 @@
+D:/GitHub/freader/tool/native/lzma/build_x86_64/CMakeFiles/sz7.dir
+D:/GitHub/freader/tool/native/lzma/build_x86_64/CMakeFiles/edit_cache.dir
+D:/GitHub/freader/tool/native/lzma/build_x86_64/CMakeFiles/rebuild_cache.dir
