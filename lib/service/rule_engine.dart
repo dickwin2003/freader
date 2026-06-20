@@ -436,7 +436,7 @@ class RuleEngine {
     }
     if (url.startsWith('//')) {
       final uri = Uri.parse(baseUrl);
-      return '${uri.scheme}://$url';
+      return '${uri.scheme}:$url';
     }
     if (url.startsWith('/')) {
       final uri = Uri.parse(baseUrl);
