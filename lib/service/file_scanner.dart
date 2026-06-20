@@ -26,9 +26,9 @@ class FileInfo {
 }
 
 /// 文件扫描器 - 扫描设备中的可读文件
-/// 参考 Legado AppPattern.kt 支持的格式
+/// 支持的文件格式
 class FileScanner {
-  /// 本地书籍支持的格式 - 参考 Legado
+  /// 本地书籍支持的格式
   static const _supportedExtensions = [
     '.txt', '.epub', '.umd', '.pdf', '.mobi',
     '.azw3', '.azw', '.md', '.html', '.htm',

@@ -16,7 +16,7 @@ class BookSourceType {
   static const int file = 3;
 }
 
-/// 书源实体 - 对应 Legado BookSource
+/// 书源实体
 /// 这是整个应用最核心的实体，定义了如何从网站抓取书籍信息的规则
 @JsonSerializable(explicitToJson: true)
 class BookSource {
@@ -175,7 +175,7 @@ class BookSource {
 
   factory BookSource.fromJson(Map<String, dynamic> json) {
     // 修复空规则对象 {} 的类型转换问题
-    // Legado 书源 JSON 中空规则是 {} 而非 null
+    // 书源 JSON 中空规则是 {} 而非 null
     final fixed = json.map((k, v) {
       if (v is Map) {
         return MapEntry(k, Map<String, dynamic>.from(v));

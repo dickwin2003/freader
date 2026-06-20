@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'rss_source.g.dart';
 
-/// RSS 订阅源实体 - 对应 Legado RssSource
+/// RSS 订阅源实体
 @JsonSerializable(explicitToJson: true)
 class RssSource {
   /// 源 URL（主键）

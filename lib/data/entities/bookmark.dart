@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'bookmark.g.dart';
 
-/// 书签实体 - 对应 Legado Bookmark
+/// 书签实体
 @JsonSerializable(explicitToJson: true)
 class Bookmark {
   /// 书签 ID

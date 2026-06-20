@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'book_info_rule.g.dart';
 
-/// 书籍详情规则 - 对应 Legado BookInfoRule
+/// 书籍详情规则
 @JsonSerializable(explicitToJson: true)
 class BookInfoRule {
   @JsonKey(name: 'init')

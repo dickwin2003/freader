@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'content_rule.g.dart';
 
-/// 正文内容规则 - 对应 Legado ContentRule
+/// 正文内容规则
 @JsonSerializable(explicitToJson: true)
 class ContentRule {
   @JsonKey(name: 'content')

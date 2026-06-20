@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 /// 处理 Android Intent 中的文件 URI
 /// 通过 MethodChannel 与原生 MainActivity 通信
 class IntentHandler {
-  static const _channel = MethodChannel('io.legado.freader/intent');
+  static const _channel = MethodChannel('io.freader/intent');
 
   final StreamController<String> _uriController = StreamController.broadcast();
   Stream<String>? _uriStream;

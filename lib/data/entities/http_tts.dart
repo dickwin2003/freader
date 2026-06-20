@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'http_tts.g.dart';
 
-/// HTTP TTS 引擎实体 - 对应 Legado HttpTTS
+/// HTTP TTS 引擎实体
 @JsonSerializable(explicitToJson: true)
 class HttpTTS {
   /// TTS ID

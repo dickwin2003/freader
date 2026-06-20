@@ -6,7 +6,7 @@ import 'package:freader/providers/book_source_providers.dart';
 import 'package:freader/providers/book_providers.dart';
 import 'package:freader/service/rule_engine.dart';
 
-/// 发现页面 - 参考 Legado ExploreFragment
+/// 发现页面
 /// 显示有发现规则的书源，点击浏览分类内容
 class ExplorePage extends ConsumerStatefulWidget {
   const ExplorePage({super.key});
@@ -84,7 +84,7 @@ class _ExplorePageState extends ConsumerState<ExplorePage> {
             );
           }
 
-          // 书源网格 - 参考 Legado 4列网格
+          // 书源网格
           return GridView.builder(
             padding: const EdgeInsets.all(12),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -257,7 +257,7 @@ class _ExploreSourceItem extends StatelessWidget {
   }
 }
 
-/// 发现分类页面 - 参考 Legado ExploreShowActivity
+/// 发现分类页面
 class _ExploreCategoryPage extends StatelessWidget {
   final dto.BookSource source;
   final List<ExploreCategory> categories;

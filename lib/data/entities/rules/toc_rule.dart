@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'toc_rule.g.dart';
 
-/// 目录规则 - 对应 Legado TocRule
+/// 目录规则
 @JsonSerializable(explicitToJson: true)
 class TocRule {
   @JsonKey(name: 'preUpdateJs')

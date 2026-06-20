@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'book_chapter.g.dart';
 
-/// 书籍章节实体 - 对应 Legado BookChapter
+/// 书籍章节实体
 @JsonSerializable(explicitToJson: true)
 class BookChapter {
   /// 章节 URL（联合主键）

@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'search_book.g.dart';
 
-/// 搜索结果实体 - 对应 Legado SearchBook
+/// 搜索结果实体
 @JsonSerializable(explicitToJson: true)
 class SearchBook {
   /// 书籍 URL

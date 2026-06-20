@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'search_keyword.g.dart';
 
-/// 搜索关键词实体 - 对应 Legado SearchKeyword
+/// 搜索关键词实体
 @JsonSerializable(explicitToJson: true)
 class SearchKeyword {
   /// 关键词（主键）

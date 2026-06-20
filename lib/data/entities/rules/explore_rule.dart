@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'explore_rule.g.dart';
 
-/// 书源发现规则 - 对应 Legado ExploreRule
+/// 书源发现规则
 @JsonSerializable(explicitToJson: true)
 class ExploreRule {
   @JsonKey(name: 'bookList')

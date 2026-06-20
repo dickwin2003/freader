@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'book_progress.g.dart';
 
-/// 阅读进度实体 - 对应 Legado BookProgress
+/// 阅读进度实体
 @JsonSerializable(explicitToJson: true)
 class BookProgress {
   /// 书籍 URL

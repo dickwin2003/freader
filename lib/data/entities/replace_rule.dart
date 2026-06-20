@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'replace_rule.g.dart';
 
-/// 替换规则实体 - 对应 Legado ReplaceRule
+/// 替换规则实体
 @JsonSerializable(explicitToJson: true)
 class ReplaceRule {
   /// 规则 ID

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:html/parser.dart' as html_parser;
 import 'package:html/dom.dart' as dom;
 
-/// 规则解析引擎 - 对应 Legado AnalyzeRule
+/// 规则解析引擎
 /// 支持 CSS 选择器、JSONPath、XPath(基础) 和正则表达式
 class RuleEngine {
   /// 从内容中获取单个字符串值

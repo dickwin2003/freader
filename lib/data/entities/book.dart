@@ -10,7 +10,7 @@ class BookType {
   static const int file = 3;
 }
 
-/// 书籍实体 - 对应 Legado Book
+/// 书籍实体
 @JsonSerializable(explicitToJson: true)
 class Book {
   /// 书籍 URL（主键）

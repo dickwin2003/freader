@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 /// FReader 应用主题配置
 class AppTheme {
-  // 主色调 - 采用 Legado 风格的蓝色调
+  // 主色调 - 采用蓝色调
   static const Color _primaryColor = Color(0xFF2196F3);
   static const Color _primaryDarkColor = Color(0xFF1976D2);
 

@@ -22,7 +22,7 @@ enum SortMode {
   const SortMode(this.label);
 }
 
-/// 书架页面 - 参考 Legado BookshelfFragment
+/// 书架页面
 class BookshelfPage extends ConsumerStatefulWidget {
   const BookshelfPage({super.key});
 

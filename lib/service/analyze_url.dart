@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 
-/// URL 分析与请求构建 - 对应 Legado AnalyzeUrl
+/// URL 分析与请求构建
 /// 处理 URL 模板、请求头、POST 请求等
 class AnalyzeUrl {
   final Dio _dio;

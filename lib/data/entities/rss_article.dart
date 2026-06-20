@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'rss_article.g.dart';
 
-/// RSS 文章实体 - 对应 Legado RssArticle
+/// RSS 文章实体
 @JsonSerializable(explicitToJson: true)
 class RssArticle {
   /// 文章 URL（联合主键）

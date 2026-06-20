@@ -215,7 +215,7 @@ class LocalBookOpener {
       doc.dispose();
     }
 
-    // PDF 每10页为一章，参考 Legado
+    // PDF 每10页为一章
     final pageSize = 10;
     final chapterCount = (pageCount / pageSize).ceil();
 

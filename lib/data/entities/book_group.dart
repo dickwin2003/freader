@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'book_group.g.dart';
 
-/// 书籍分组实体 - 对应 Legado BookGroup
+/// 书籍分组实体
 @JsonSerializable(explicitToJson: true)
 class BookGroup {
   /// 分组 ID（主键）

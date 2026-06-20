@@ -8,7 +8,7 @@
 PRODUCT_NAME = freader
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = io.legado.freader
+PRODUCT_BUNDLE_IDENTIFIER = io.freader
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2026 io.legado. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2026 io.freader. All rights reserved.

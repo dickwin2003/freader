@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'dict_rule.g.dart';
 
-/// 字典规则实体 - 对应 Legado DictRule
+/// 字典规则实体
 @JsonSerializable(explicitToJson: true)
 class DictRule {
   /// 规则名称（主键）

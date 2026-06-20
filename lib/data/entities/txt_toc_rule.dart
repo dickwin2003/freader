@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'txt_toc_rule.g.dart';
 
-/// TXT 目录规则实体 - 对应 Legado TxtTocRule
+/// TXT 目录规则实体
 @JsonSerializable(explicitToJson: true)
 class TxtTocRule {
   /// 规则 ID

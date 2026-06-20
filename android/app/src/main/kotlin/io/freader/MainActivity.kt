@@ -1,4 +1,4 @@
-package io.legado.freader
+package io.freader
 
 import android.content.Intent
 import android.net.Uri
@@ -11,7 +11,7 @@ import java.io.FileOutputStream
 import java.io.InputStream
 
 class MainActivity : FlutterFragmentActivity() {
-    private val INTENT_CHANNEL = "io.legado.freader/intent"
+    private val INTENT_CHANNEL = "io.freader/intent"
     private var intentChannel: MethodChannel? = null
     private var pendingUri: String? = null
 

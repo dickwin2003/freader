@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'review_rule.g.dart';
 
-/// 评论规则 - 对应 Legado ReviewRule
+/// 评论规则
 @JsonSerializable(explicitToJson: true)
 class ReviewRule {
   @JsonKey(name: 'reviewUrl')

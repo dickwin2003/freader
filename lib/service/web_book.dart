@@ -12,7 +12,7 @@ import 'package:freader/data/entities/rules/content_rule.dart';
 import 'package:freader/service/rule_engine.dart';
 import 'package:freader/service/analyze_url.dart';
 
-/// 网络书籍服务 - 对应 Legado WebBook
+/// 网络书籍服务
 /// 负责使用书源规则从网络获取书籍信息
 class WebBook {
   final Dio _dio;

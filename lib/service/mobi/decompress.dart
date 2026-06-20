@@ -80,7 +80,7 @@ class HuffcdicDecompressor implements Decompressor {
       pos += 8;
       // Dart 没有 64-bit shift，用 BigInt 或限制范围
       // mincodeTable[i] = (mincode << (32 - i)) 的低 32 位
-      // Legado: mincodeTable[i] = mincode shl (32 - i)
+      // mincodeTable[i] = mincode shl (32 - i)
       //         maxcodeTable[i] = ((maxcode + 1) shl (32 - i)) - 1
       // 但这些值用于 64-bit 比较，这里简化处理
       mincodeTable[i] = mincode;
@@ -109,7 +109,7 @@ class HuffcdicDecompressor implements Decompressor {
   Uint8List decompress(Uint8List data) {
     final out = <int>[];
 
-    // Legado 的实现是每次读 32 bits (4 bytes)，然后用 bitcount 追踪
+    // 实现是每次读 32 bits (4 bytes)，然后用 bitcount 追踪
     int pos = 0;
     int bitsLeft = data.length * 8;
 

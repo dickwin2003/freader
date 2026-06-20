@@ -157,7 +157,7 @@ class LocalFileReader {
       return (content: decoded, charset: knownCharset);
     }
 
-    // 自动检测编码（参考 Legado 的 EncodingDetect）
+    // 自动检测编码
     final detected = _detectEncoding(contentBytes);
     final decoded = _decodeWithEncoding(contentBytes, detected.encoding);
     return (content: decoded, charset: detected.name);
