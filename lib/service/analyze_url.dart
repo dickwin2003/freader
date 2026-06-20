@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 
+import 'url_utils.dart';
+
 /// URL 分析与请求构建
 /// 处理 URL 模板、请求头、POST 请求等
 class AnalyzeUrl {
@@ -118,22 +120,8 @@ class AnalyzeUrl {
   }
 
   /// 解析相对 URL
-  static String resolveUrl(String? baseUrl, String url) {
-    if (url.startsWith('http://') || url.startsWith('https://')) {
-      return url;
-    }
-    if (baseUrl == null || baseUrl.isEmpty) return url;
-    if (url.startsWith('//')) {
-      final uri = Uri.parse(baseUrl);
-      return '${uri.scheme}:$url';
-    }
-    if (url.startsWith('/')) {
-      final uri = Uri.parse(baseUrl);
-      return '${uri.scheme}://${uri.host}$url';
-    }
-    final base = baseUrl.substring(0, baseUrl.lastIndexOf('/') + 1);
-    return '$base$url';
-  }
+  static String resolveUrl(String? baseUrl, String url) =>
+      resolveRelativeUrl(baseUrl, url);
 
   String _resolveUrl(String? baseUrl, String url) {
     return resolveUrl(baseUrl, url);

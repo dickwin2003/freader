@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:html/parser.dart' as html_parser;
 import 'package:html/dom.dart' as dom;
 
+import 'url_utils.dart';
+
 /// 规则解析引擎
 /// 支持 CSS 选择器、JSONPath、XPath(基础) 和正则表达式
 class RuleEngine {
@@ -430,22 +432,8 @@ class RuleEngine {
   }
 
   /// 从内容中解析 URL（处理相对路径）
-  static String resolveUrl(String baseUrl, String url) {
-    if (url.startsWith('http://') || url.startsWith('https://')) {
-      return url;
-    }
-    if (url.startsWith('//')) {
-      final uri = Uri.parse(baseUrl);
-      return '${uri.scheme}:$url';
-    }
-    if (url.startsWith('/')) {
-      final uri = Uri.parse(baseUrl);
-      return '${uri.scheme}://${uri.host}$url';
-    }
-    // 相对路径
-    final base = baseUrl.substring(0, baseUrl.lastIndexOf('/') + 1);
-    return '$base$url';
-  }
+  static String resolveUrl(String baseUrl, String url) =>
+      resolveRelativeUrl(baseUrl, url);
 }
 
 /// 发现分类
