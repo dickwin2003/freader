@@ -517,7 +517,7 @@ class _BookGridItem extends StatelessWidget {
                         gradient: LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
-                          colors: [Colors.transparent, Colors.black.withOpacity(0.7)],
+                          colors: [Colors.transparent, Colors.black.withValues(alpha: 0.7)],
                         ),
                       ),
                       child: Text(
@@ -549,8 +549,8 @@ class _BookGridItem extends StatelessWidget {
         imageUrl: url,
         fit: BoxFit.cover,
         memCacheWidth: 300,
-        placeholder: (_, __) => _defaultCover(context),
-        errorWidget: (_, __, ___) => _defaultCover(context),
+        placeholder: (_, _) => _defaultCover(context),
+        errorWidget: (_, _, _) => _defaultCover(context),
       );
     }
     return _defaultCover(context);
@@ -627,8 +627,8 @@ class _BookListItem extends StatelessWidget {
                         imageUrl: book.displayCoverUrl!,
                         fit: BoxFit.cover,
                         memCacheWidth: 120,
-                        placeholder: (_, __) => _defaultCover(context),
-                        errorWidget: (_, __, ___) => _defaultCover(context),
+                        placeholder: (_, _) => _defaultCover(context),
+                        errorWidget: (_, _, _) => _defaultCover(context),
                       )
                     : _defaultCover(context),
               ),
@@ -641,7 +641,7 @@ class _BookListItem extends StatelessWidget {
                   Text(book.name, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
                       maxLines: 1, overflow: TextOverflow.ellipsis),
                   const SizedBox(height: 4),
-                  Text('${book.author}',
+                  Text(book.author,
                       style: TextStyle(fontSize: 13, color: Colors.grey[600]),
                       maxLines: 1, overflow: TextOverflow.ellipsis),
                   if (book.durChapterTitle != null) ...[

@@ -14,5 +14,9 @@ void main() {
     expect(find.text('笔记'), findsOneWidget);
     expect(find.text('AI'), findsOneWidget);
     expect(find.text('我的'), findsOneWidget);
+
+    // FReaderApp 启动会延迟 4 秒预加载本地模型（见 main.dart _preloadLocalModel），
+    // 推进时间让该定时器触发完成，避免测试结束时报 "A Timer is still pending"。
+    await tester.pump(const Duration(seconds: 5));
   });
 }

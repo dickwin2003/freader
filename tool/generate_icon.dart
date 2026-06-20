@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 // 生成 FReader 应用图标 — 温暖书页风格
 import 'dart:io';
 import 'package:image/image.dart' as img;
@@ -87,13 +89,15 @@ void _rect(img.Image im, int x, int y, int w, int h) {
 
 void _drawHLine(img.Image im, int x1, int y, int len) {
   for (int i = 0; i < len; i++) {
-    for (int d = 0; d < 3; d++) _blend(im, x1 + i, y + d, 255, 255, 255, 100);
+    for (int d = 0; d < 3; d++) {
+      _blend(im, x1 + i, y + d, 255, 255, 255, 100);
+    }
   }
 }
 
 void _blend(img.Image im, int x, int y, int r, int g, int b, int alpha) {
   if (x < 0 || x >= im.width || y < 0 || y >= im.height) return;
-  final p = im.getPixel(x, y) as int;
+  final p = im.getPixel(x, y);
   final pr = (p >> 16) & 0xFF;
   final pg = (p >> 8) & 0xFF;
   final pb = p & 0xFF;

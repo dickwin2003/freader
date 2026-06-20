@@ -1,3 +1,5 @@
+// ignore_for_file: experimental_member_use
+
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
@@ -67,7 +69,6 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
   double _lineHeight = 1.8;
   Color _bgColor = const Color(0xFFFFFDE7);
   Color _textColor = const Color(0xFF212121);
-  double _brightness = 1.0;
 
   // 朗读
   final AudioPlayer _ttsPlayer = AudioPlayer();
@@ -431,7 +432,7 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
                             chapter.title,
                             style: TextStyle(
                               fontSize: 12,
-                              color: _textColor.withOpacity(0.5),
+                              color: _textColor.withValues(alpha: 0.5),
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -445,7 +446,7 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
                     child: _isLoading
                         ? Center(
                             child: CircularProgressIndicator(
-                                color: _textColor.withOpacity(0.5)))
+                                color: _textColor.withValues(alpha: 0.5)))
                         : _error != null
                             ? Center(
                                 child: Column(
@@ -481,12 +482,12 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
                               ? '${_currentChapterIndex + 1}/${widget.chapters.length}'
                               : '${_currentChapterIndex + 1}/${widget.chapters.length} · ${((_currentChapterIndex + 1) / widget.chapters.length * 100).round()}%',
                           style: TextStyle(
-                              fontSize: 11, color: _textColor.withOpacity(0.4)),
+                              fontSize: 11, color: _textColor.withValues(alpha: 0.4)),
                         ),
                         Text(
                           widget.book.name,
                           style: TextStyle(
-                              fontSize: 11, color: _textColor.withOpacity(0.4)),
+                              fontSize: 11, color: _textColor.withValues(alpha: 0.4)),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -525,7 +526,7 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
           color: Theme.of(context).colorScheme.surface,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 4,
               offset: const Offset(0, 2),
             ),
@@ -572,7 +573,7 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
           color: Theme.of(context).colorScheme.surface,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 4,
               offset: const Offset(0, -2),
             ),
@@ -668,7 +669,7 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.15),
+              color: Colors.black.withValues(alpha: 0.15),
               blurRadius: 8,
               offset: const Offset(0, -4),
             ),
@@ -768,7 +769,7 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
                           ? Border.all(
                               color: Theme.of(context).colorScheme.primary,
                               width: 3)
-                          : Border.all(color: Colors.grey.withOpacity(0.3)),
+                          : Border.all(color: Colors.grey.withValues(alpha: 0.3)),
                     ),
                   ),
                 );
@@ -878,7 +879,7 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
             child: GestureDetector(
               onTap: () => setState(() => _showToc = false),
               child: Container(
-                color: Colors.black.withOpacity(0.4),
+                color: Colors.black.withValues(alpha: 0.4),
               ),
             ),
           ),
@@ -912,7 +913,7 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
   Widget _buildTextView() {
     if (_contentParagraphs.isEmpty) {
       return Center(
-        child: Text('暂无内容', style: TextStyle(color: _textColor.withOpacity(0.5))),
+        child: Text('暂无内容', style: TextStyle(color: _textColor.withValues(alpha: 0.5))),
       );
     }
 

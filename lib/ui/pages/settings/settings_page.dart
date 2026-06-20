@@ -1,3 +1,6 @@
+// ignore_for_file: deprecated_member_use
+// Radio 暂未迁移到 Flutter 3.32 的 RadioGroup 新 API（行为等价，待 API 稳定后再迁）
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

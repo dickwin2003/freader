@@ -32,7 +32,7 @@ class LocalFileReader {
   /// RAR 格式（通过 unRAR native 库解压）
   static const _rarExtensions = ['.rar'];
   /// 7z 格式（通过 LZMA SDK native 库解压）
-  static const _7zExtensions = ['.7z'];
+  static const _sevenZipExtensions = ['.7z'];
 
   static bool isTextFile(String filePath) {
     final ext = p.extension(filePath).toLowerCase();
@@ -66,7 +66,7 @@ class LocalFileReader {
 
   static bool isSupportedFile(String filePath) {
     final ext = p.extension(filePath).toLowerCase();
-    return [..._textExtensions, ..._epubExtensions, ..._pdfExtensions, ..._mobiExtensions, ..._unsupportedExtensions, ..._zipExtensions, ..._rarExtensions, ..._7zExtensions].contains(ext);
+    return [..._textExtensions, ..._epubExtensions, ..._pdfExtensions, ..._mobiExtensions, ..._unsupportedExtensions, ..._zipExtensions, ..._rarExtensions, ..._sevenZipExtensions].contains(ext);
   }
 
   static bool isZipFile(String filePath) {
@@ -81,7 +81,7 @@ class LocalFileReader {
 
   static bool is7zFile(String filePath) {
     final ext = p.extension(filePath).toLowerCase();
-    return _7zExtensions.contains(ext);
+    return _sevenZipExtensions.contains(ext);
   }
 
   /// 是否为可直接打开的书籍扩展名（不含 umd/zip）
@@ -329,7 +329,7 @@ class LocalFileReader {
   /// HTML 转纯文本（公开，供 HTML 文件阅读用）
   static String htmlToPlainText(String html) => _htmlToPlainText(html);
 
-  /// 读取 .docx 文件正文：解压取 word/document.xml，提取 <w:t> 文字。
+  /// 读取 .docx 文件正文：解压取 word/document.xml，提取 `<w:t>` 文字。
   static Future<String> readDocxText(String filePath) async {
     final file = File(filePath);
     if (!await file.exists()) throw Exception('文件不存在: $filePath');

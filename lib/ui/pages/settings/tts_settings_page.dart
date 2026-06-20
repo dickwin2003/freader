@@ -40,10 +40,15 @@ class _TtsSettingsPageState extends State<TtsSettingsPage> {
 
   Future<void> _save(String key, dynamic value) async {
     final prefs = await SharedPreferences.getInstance();
-    if (value is double) await prefs.setDouble(key, value);
-    else if (value is bool) await prefs.setBool(key, value);
-    else if (value is int) await prefs.setInt(key, value);
-    else if (value is String) await prefs.setString(key, value);
+    if (value is double) {
+      await prefs.setDouble(key, value);
+    } else if (value is bool) {
+      await prefs.setBool(key, value);
+    } else if (value is int) {
+      await prefs.setInt(key, value);
+    } else if (value is String) {
+      await prefs.setString(key, value);
+    }
   }
 
   @override
@@ -89,7 +94,7 @@ class _TtsSettingsPageState extends State<TtsSettingsPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: DropdownButtonFormField<String>(
-              value: _language,
+              initialValue: _language,
               decoration: const InputDecoration(
                 labelText: '朗读语言',
                 border: OutlineInputBorder(),
@@ -144,7 +149,7 @@ class _TtsSettingsPageState extends State<TtsSettingsPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: DropdownButtonFormField<int>(
-              value: _timer,
+              initialValue: _timer,
               decoration: const InputDecoration(
                 labelText: '自动停止时间',
                 border: OutlineInputBorder(),

@@ -38,12 +38,6 @@ class FileScanner {
   /// 压缩文件格式
   static const _archiveExtensions = ['.zip', '.rar', '.7z'];
 
-  /// 所有可扫描格式
-  static const _allExtensions = [
-    ..._supportedExtensions,
-    ..._archiveExtensions,
-  ];
-
   /// 需要跳过的目录（系统目录，扫描会出错或无意义）
   static const _skipDirs = {
     'Android', '.android', '.Android', 'lost+found',
@@ -131,7 +125,7 @@ class FileScanner {
           if (fileName.startsWith('.')) continue;
 
           final ext = p.extension(entity.path).toLowerCase();
-          if (_supportedExtensions.contains(ext) || ext == '.zip' || ext == '.rar' || ext == '.7z') {
+          if (_supportedExtensions.contains(ext) || _archiveExtensions.contains(ext)) {
             if (seenPaths.contains(entity.path)) continue;
             seenPaths.add(entity.path);
 

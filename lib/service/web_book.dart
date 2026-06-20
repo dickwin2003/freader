@@ -1,14 +1,8 @@
-import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:freader/data/entities/book_source.dart';
 import 'package:freader/data/entities/book.dart';
 import 'package:freader/data/entities/book_chapter.dart';
 import 'package:freader/data/entities/search_book.dart';
-import 'package:freader/data/entities/rules/search_rule.dart';
-import 'package:freader/data/entities/rules/explore_rule.dart';
-import 'package:freader/data/entities/rules/book_info_rule.dart';
-import 'package:freader/data/entities/rules/toc_rule.dart';
-import 'package:freader/data/entities/rules/content_rule.dart';
 import 'package:freader/service/rule_engine.dart';
 import 'package:freader/service/analyze_url.dart';
 

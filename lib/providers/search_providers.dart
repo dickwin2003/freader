@@ -5,7 +5,6 @@ import 'package:freader/data/entities/search_book.dart' as dto;
 import 'package:freader/data/repositories/book_repository.dart';
 import 'package:freader/service/web_book.dart';
 
-import 'app_providers.dart';
 import 'book_source_providers.dart';
 import 'book_providers.dart';
 

@@ -16,11 +16,9 @@ class OnDeviceModelManager {
   bool _downloading = false;
   bool _pauseRequested = false;
   // 当前选定的模型类型（决定对话模板，影响输出质量）
-  ModelType _modelType = ModelType.gemmaIt;
+  ModelType modelType = ModelType.gemmaIt;
 
   bool get isDownloading => _downloading;
-  ModelType get modelType => _modelType;
-  set modelType(ModelType t) => _modelType = t;
 
   String _filenameFromUrl(String url) {
     final uri = Uri.parse(url);
@@ -201,7 +199,7 @@ class OnDeviceModelManager {
       throw Exception('模型文件不存在: ${finalFile.path}');
     }
     await FlutterGemma.installModel(
-      modelType: _modelType,
+      modelType: modelType,
       fileType: ModelFileType.task,
     ).fromFile(finalFile.path).install();
   }

@@ -1,8 +1,6 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freader/data/entities/book.dart' as dto;
 import 'package:freader/data/entities/book_chapter.dart' as dto;
-import 'package:freader/data/entities/book_source.dart' as dto;
 import 'package:freader/data/repositories/book_repository.dart';
 import 'package:freader/data/repositories/book_source_repository.dart';
 import 'package:freader/service/local_file_reader.dart';

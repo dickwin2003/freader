@@ -430,7 +430,7 @@ class _ExploreBookItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(6),
               child: coverUrl != null && coverUrl!.isNotEmpty
                   ? Image.network(coverUrl!, fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) => _defaultCover(context))
+                      errorBuilder: (_, _, _) => _defaultCover(context))
                   : _defaultCover(context),
             ),
           ),

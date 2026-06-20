@@ -44,7 +44,6 @@ class _BookInfoPageState extends ConsumerState<BookInfoPage> {
   bool _isInBookshelf = false;
   dto.Book? _book;
   List<dto.BookChapter> _chapters = [];
-  String? _error;
   int? _localScore; // 评分乐观更新；null 时取 _book.score
 
   @override
@@ -56,7 +55,6 @@ class _BookInfoPageState extends ConsumerState<BookInfoPage> {
   Future<void> _loadBookInfo() async {
     setState(() {
       _isLoading = true;
-      _error = null;
     });
 
     try {
@@ -119,7 +117,6 @@ class _BookInfoPageState extends ConsumerState<BookInfoPage> {
             local: false,
           );
           _isLoading = false;
-          _error = e.toString();
         });
       }
     }
@@ -235,7 +232,7 @@ class _BookInfoPageState extends ConsumerState<BookInfoPage> {
               width: 90, height: 120,
               child: book.displayCoverUrl != null && book.displayCoverUrl!.isNotEmpty
                   ? Image.network(book.displayCoverUrl!, fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) => _defaultCover(context))
+                      errorBuilder: (_, _, _) => _defaultCover(context))
                   : _defaultCover(context),
             ),
           ),

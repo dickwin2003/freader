@@ -163,7 +163,7 @@ abstract class MobiBook {
     rights: _toSingleString(exth['rights']) ?? '',
   );
 
-  /// 取 EXTH 单值字段，兼容 String 与 List<String>
+  /// 取 EXTH 单值字段，兼容 String 与 `List<String>`
   /// （language 等 many 字段在某些 MOBI 里会重复出现，被解析为 List）
   String? _toSingleString(dynamic value) {
     if (value is String) return value;

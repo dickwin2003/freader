@@ -18,7 +18,6 @@ class AppLogger {
   final List<String> _lines = [];
   bool _capturePrints = false;
   Timer? _flushTimer;
-  bool _dirty = false;
   File? _file;
   bool _initialized = false;
 
@@ -88,7 +87,6 @@ class AppLogger {
     if (_lines.length > _maxLines) {
       _lines.removeRange(0, _lines.length - _maxLines);
     }
-    _dirty = true;
     if (persistImmediately) {
       // 同步写盘：确保原生崩溃杀进程前已落盘
       _flushSync();
@@ -105,7 +103,6 @@ class AppLogger {
   /// 同步覆写整个日志文件（崩溃安全）。
   void _flushSync() {
     if (_file == null) return;
-    _dirty = false;
     try {
       _file!.writeAsStringSync(_lines.join('\n'));
     } catch (_) {}
@@ -117,7 +114,6 @@ class AppLogger {
 
   Future<void> clear() async {
     _lines.clear();
-    _dirty = true;
     await _flush();
   }
 

@@ -134,7 +134,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
           );
         },
         loading: () => const SizedBox.shrink(),
-        error: (_, __) => const SizedBox.shrink(),
+        error: (_, _) => const SizedBox.shrink(),
       );
     });
   }
@@ -240,7 +240,7 @@ class _SearchResultItem extends StatelessWidget {
                     ? Image.network(
                         book.coverUrl!,
                         fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) => _defaultCover(context),
+                        errorBuilder: (_, _, _) => _defaultCover(context),
                       )
                     : _defaultCover(context),
               ),

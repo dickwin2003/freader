@@ -56,7 +56,7 @@ class CloudLlmService implements LlmService {
           'model': _config.model,
           'messages': messages,
           'temperature': temperature ?? _config.temperature,
-          if (maxTokens != null) 'max_tokens': maxTokens,
+          'max_tokens': ?maxTokens,
         }),
         options: _options(
           headers: {
@@ -98,7 +98,7 @@ class CloudLlmService implements LlmService {
             {'role': 'user', 'content': userPrompt}
           ],
           if (mergedSys.isNotEmpty) 'system': mergedSys,
-          if (temperature != null) 'temperature': temperature,
+          'temperature': ?temperature,
         }),
         options: _options(
           headers: {

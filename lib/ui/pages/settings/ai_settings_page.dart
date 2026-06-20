@@ -565,7 +565,7 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
             border: OutlineInputBorder(),
             prefixIcon: Icon(Icons.cloud_queue),
           ),
-          value: _kModelSources.firstWhere(
+          initialValue: _kModelSources.firstWhere(
             (s) => s.url == _modelUrlController.text,
             orElse: () => _kModelSources.first,
           ),
@@ -631,7 +631,7 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
               child: Text(
                 _total > 0
                     ? '${((_downloaded / _total) * 100).toStringAsFixed(0)}%'
-                    : '${_fmtBytes(_downloaded)}',
+                    : _fmtBytes(_downloaded),
                 textAlign: TextAlign.right,
                 style: const TextStyle(fontSize: 12),
               ),

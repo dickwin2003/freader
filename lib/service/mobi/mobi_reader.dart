@@ -90,7 +90,7 @@ class MobiReader {
 
     final lang = _mobiLangMap[localeLanguage];
     final language = lang != null
-        ? (localeRegion >> 2 < lang.length ? lang[localeRegion >> 2] ?? lang.first : lang.first)
+        ? (localeRegion >> 2 < lang.length ? lang[localeRegion >> 2] : lang.first)
         : '';
 
     return MobiHeader(

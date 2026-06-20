@@ -435,12 +435,12 @@ class _WebDavSettingsPageState extends ConsumerState<WebDavSettingsPage> {
             width: double.infinity,
             child: FilledButton.icon(
               onPressed: () async {
+                final messenger = ScaffoldMessenger.of(context);
                 await _saveSettings();
-                if (mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('设置已保存')),
-                  );
-                }
+                if (!mounted) return;
+                messenger.showSnackBar(
+                  const SnackBar(content: Text('设置已保存')),
+                );
               },
               icon: const Icon(Icons.save),
               label: const Text('保存设置'),

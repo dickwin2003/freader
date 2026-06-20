@@ -29,7 +29,6 @@ final rssSourceFilteredProvider =
   final db = ref.watch(appDatabaseProvider);
   final query = ref.watch(rssSourceSearchProvider);
 
-  var queryExpr = db.rssSources.sourceName;
   final select = db.select(db.rssSources);
 
   if (query.isNotEmpty) {

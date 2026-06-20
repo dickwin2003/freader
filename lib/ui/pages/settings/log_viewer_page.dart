@@ -37,12 +37,12 @@ class _LogViewerPageState extends State<LogViewerPage> {
             icon: const Icon(Icons.copy),
             tooltip: '复制全部',
             onPressed: () async {
+              final messenger = ScaffoldMessenger.of(context);
               await Clipboard.setData(
                   ClipboardData(text: AppLogger.instance.export()));
-              if (mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('已复制全部日志')));
-              }
+              if (!mounted) return;
+              messenger.showSnackBar(
+                  const SnackBar(content: Text('已复制全部日志')));
             },
           ),
           IconButton(
