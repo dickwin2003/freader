@@ -1,0 +1,119 @@
+name: Build iOS IPA (TrollStore)
+
+# 该 workflow 在 GitHub 托管的 macOS runner 上把 Flutter 项目编译成
+# 【未签名】的 iOS ipa,供越狱机/巨魔商店(TrollStore)安装。
+# TrollStore 利用 CoreTrust 漏洞,可直接安装未签名 ipa,所以构建全程关闭代码签名。
+
+on:
+  # 手动触发(必选):Actions 页点 Run workflow
+  workflow_dispatch:
+  # 推到 main 分支时自动触发(便利,可随时关掉)
+  push:
+    branches:
+      - main
+
+# 同一分支的并发构建只保留最新一次,避免浪费 runner 时间
+concurrency:
+  group: ios-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build unsigned iOS IPA
+    runs-on: macos-latest
+
+    steps:
+      # 1) 拉代码
+      - name: Checkout 仓库
+        uses: actions/checkout@v4
+
+      # 2) 安装 Flutter(stable 通道)。subosito/flutter-action@v2 自带 pub cache。
+      - name: 设置 Flutter(stable)
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      # 3) CocoaPods 缓存。首次构建前 ios/Podfile.lock 不存在(首次 pod install 才生成),
+      #    所以 key 用 Podfile.lock 的 hash 作为可命中前缀,缺失时回退到 ios/ 目录结构 hash,
+      #    再回退到任意前缀(命中即恢复,但 pod install 仍会按需补全)。
+      - name: 缓存 CocoaPods
+        uses: actions/cache@v4
+        with:
+          path: |
+            ios/Pods
+            ~/.cocoapods/repos
+          key: cocoapods-${{ runner.os }}-${{ hashFiles('ios/Podfile.lock', 'ios/Podfile') }}
+          restore-keys: |
+            cocoapods-${{ runner.os }}-
+
+      # 4) 拉依赖
+      - name: flutter pub get
+        run: flutter pub get
+
+      # 5) 一次性预装 Pods(避免 build 阶段才解析报错难排查)。
+      #    Podfile 可能尚未生成,flutter precache --ios 会确保模板就绪。
+      - name: 预安装 CocoaPods
+        run: |
+          # 若 Podfile 不存在,先让 Flutter 生成 ios 工程模板里的 Podfile
+          if [ ! -f ios/Podfile ]; then
+            flutter precache --ios
+          fi
+          cd ios && pod install --repo-update || pod install
+
+      # 6) 核心构建:优先走 flutter build ipa --no-codesign(产出 build/ios/ipa/*.ipa)。
+      #    若失败(部分 Flutter/插件组合下 ipa 仍会要求签名导出),回退到
+      #    flutter build ios --no-codesign 拿到 Runner.app 后手动 Payload 打包。
+      - name: 构建未签名 ipa(含 fallback)
+        id: build_ipa
+        run: |
+          set +e
+          echo "::group::尝试 flutter build ipa --no-codesign"
+          flutter build ipa --release --no-codesign
+          IPA_RC=$?
+          echo "::endgroup::"
+
+          # 优先产物路径
+          IPA_FILE="$(ls build/ios/ipa/*.ipa 2>/dev/null | head -n1 || true)"
+
+          if [ "$IPA_RC" -eq 0 ] && [ -n "$IPA_FILE" ]; then
+            echo "ipa 命令成功,产物: $IPA_FILE"
+            echo "ipa_path=$IPA_FILE" >> "$GITHUB_OUTPUT"
+          else
+            echo "::warning::flutter build ipa 失败/未产出 ipa,回退到 flutter build ios + 手动打包"
+            echo "::group::flutter build ios --release --no-codesign"
+            flutter build ios --release --no-codesign
+            echo "::endgroup::"
+
+            # 把 Runner.app 打包成 Payload 结构的标准 ipa
+            rm -rf Payload
+            mkdir -p Payload
+            cp -r build/ios/iphoneos/Runner.app Payload/
+            zip -ry freader-unsigned.ipa Payload
+            echo "ipa fallback 打包成功: $(pwd)/freader-unsigned.ipa"
+            echo "ipa_path=$(pwd)/freader-unsigned.ipa" >> "$GITHUB_OUTPUT"
+          fi
+
+      # 7) 打印产物路径与大小(便于在 Actions 日志里直接看到体积/路径)
+      - name: 打印产物信息
+        run: |
+          IPA="${{ steps.build_ipa.outputs.ipa_path }}"
+          echo "=== 产物路径 ==="
+          echo "$IPA"
+          echo "=== ls -lh ==="
+          ls -lh "$IPA"
+          echo "=== du -h(所在目录) ==="
+          du -h "$(dirname "$IPA")"/* || true
+          echo "=== Runner.app 信息(参考) ==="
+          ls -lh build/ios/iphoneos/Runner.app 2>/dev/null | head -5 || true
+
+      # 8) 上传 artifact。if-no-files-found: error 保证产物缺失时 job 立即红,
+      #    避免静默上传空 artifact。
+      - name: 上传 ipa artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: freader-ios
+          path: |
+            ${{ steps.build_ipa.outputs.ipa_path }}
+          if-no-files-found: error
+          retention-days: 14

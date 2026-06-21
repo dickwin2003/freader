@@ -1,0 +1,59 @@
+# Codemagic 构建配置 —— 未签名 iOS IPA（越狱机用 TrollStore 安装）
+# 文档: https://docs.codemagic.io/yaml-basic-configuration/yaml-getting-started/
+#
+# 用途:在 Codemagic 云端 Mac 上把 freader 编成【未签名】ipa，
+#       下载后用 AirDrop / 网盘传到越狱机，TrollStore 直接安装（永久有效，无需签名）。
+# 触发:在 Codemagic 网页选这个 workflow → Start build。
+
+workflows:
+  ios-unsigned-trollstore:
+    name: iOS 未签名 (TrollStore)
+    instance_type: mac_mini_m1
+    max_build_duration: 40
+
+    environment:
+      flutter: stable
+      xcode: latest
+      # 未签名构建：不配任何 code signing / certificate / profile
+
+    cache:
+      cache_paths:
+        - $FLUTTER_ROOT/.pub-cache
+        - $HOME/Library/Caches/CocoaPods
+        - ios/Pods
+
+    scripts:
+      - name: 拉取 Flutter 依赖
+        script: |
+          flutter pub get
+
+      - name: 安装 CocoaPods 依赖（flutter_gemma / mlkit / speech_to_text 等 native 插件）
+        script: |
+          flutter precache --ios
+          cd ios && (pod install --repo-update || pod install)
+
+      - name: 构建未签名 IPA（TrollStore 用）
+        script: |
+          set -e
+          # 首选：flutter build ipa --no-codesign 直接产出未签名 ipa 到 build/ios/ipa/
+          if flutter build ipa --release --no-codesign; then
+            echo "✅ flutter build ipa 成功"
+          else
+            echo "⚠️ flutter build ipa 失败，走 fallback：build ios + 手动打包 Payload"
+            flutter build ios --release --no-codesign --no-cocoapods || flutter build ios --release --no-codesign
+            mkdir -p Payload
+            cp -r build/ios/iphoneos/Runner.app Payload/
+            zip -ry freader-unsigned.ipa Payload
+            mkdir -p build/ios/ipa
+            mv freader-unsigned.ipa build/ios/ipa/
+          fi
+          echo "=== 产物 ==="
+          ls -lh build/ios/ipa/*.ipa
+
+    artifacts:
+      - build/ios/ipa/*.ipa
+
+    publishing:
+      email:
+        recipients:
+          - your-email@example.com   # ← 改成你的邮箱，构建完会收到下载链接
