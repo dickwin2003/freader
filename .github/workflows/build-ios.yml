@@ -69,12 +69,23 @@ jobs:
         run: |
           set -e
           # ExportOptions 声明未签名导出（TrollStore 用，无需开发者签名）
-          flutter build ipa --release --no-codesign --export-options-plist=ios/ExportOptions.plist
+          flutter build ipa --release --no-codesign --export-options-plist=ios/ExportOptions.plist 2>&1 | tee /tmp/build.log
           IPA_FILE="$(ls build/ios/ipa/*.ipa | head -n1)"
           test -n "$IPA_FILE"
           echo "ipa 产物: $IPA_FILE"
           echo "ipa_path=$IPA_FILE" >> "$GITHUB_OUTPUT"
           ls -lh "$IPA_FILE"
+
+      # 构建失败时把 flutter build 日志尾部贴到 Summary，无需展开 step 即可看到报错
+      - name: 构建失败时把日志贴到 Summary
+        if: failure()
+        run: |
+          {
+            echo "## ❌ flutter build 失败 — 日志最后 100 行"
+            echo '```'
+            tail -100 /tmp/build.log 2>/dev/null || echo "(无 build.log)"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
 
       # 7) 打印产物路径与大小(便于在 Actions 日志里直接看到体积/路径)
       - name: 打印产物信息
