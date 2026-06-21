@@ -1,5 +1,5 @@
-# 指定 iOS 15.0（google_mlkit_text_recognition / google_mlkit_commons 要求 iOS 15+）
-platform :ios, '15.0'
+# 指定 iOS 17.0（google_mlkit_commons 0.11.x 要求 iOS 16+；目标越狱机为 iOS 17，留余量）
+platform :ios, '17.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
@@ -42,7 +42,7 @@ post_install do |installer|
     flutter_additional_ios_build_settings(target)
     # 强制所有 pod 以 iOS 15.0 为部署目标，避免 google_mlkit 等要求高版本的 pod 冲突
     target.build_configurations.each do |config|
-      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.0'
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '17.0'
     end
   end
 end
