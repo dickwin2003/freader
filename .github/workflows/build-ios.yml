@@ -64,35 +64,17 @@ jobs:
       # 6) 核心构建:优先走 flutter build ipa --no-codesign(产出 build/ios/ipa/*.ipa)。
       #    若失败(部分 Flutter/插件组合下 ipa 仍会要求签名导出),回退到
       #    flutter build ios --no-codesign 拿到 Runner.app 后手动 Payload 打包。
-      - name: 构建未签名 ipa(含 fallback)
+      - name: 构建未签名 ipa
         id: build_ipa
         run: |
-          set +e
-          echo "::group::尝试 flutter build ipa --no-codesign"
-          flutter build ipa --release --no-codesign
-          IPA_RC=$?
-          echo "::endgroup::"
-
-          # 优先产物路径
-          IPA_FILE="$(ls build/ios/ipa/*.ipa 2>/dev/null | head -n1 || true)"
-
-          if [ "$IPA_RC" -eq 0 ] && [ -n "$IPA_FILE" ]; then
-            echo "ipa 命令成功,产物: $IPA_FILE"
-            echo "ipa_path=$IPA_FILE" >> "$GITHUB_OUTPUT"
-          else
-            echo "::warning::flutter build ipa 失败/未产出 ipa,回退到 flutter build ios + 手动打包"
-            echo "::group::flutter build ios --release --no-codesign"
-            flutter build ios --release --no-codesign
-            echo "::endgroup::"
-
-            # 把 Runner.app 打包成 Payload 结构的标准 ipa
-            rm -rf Payload
-            mkdir -p Payload
-            cp -r build/ios/iphoneos/Runner.app Payload/
-            zip -ry freader-unsigned.ipa Payload
-            echo "ipa fallback 打包成功: $(pwd)/freader-unsigned.ipa"
-            echo "ipa_path=$(pwd)/freader-unsigned.ipa" >> "$GITHUB_OUTPUT"
-          fi
+          set -e
+          # ExportOptions 声明未签名导出（TrollStore 用，无需开发者签名）
+          flutter build ipa --release --no-codesign --export-options-plist=ios/ExportOptions.plist
+          IPA_FILE="$(ls build/ios/ipa/*.ipa | head -n1)"
+          test -n "$IPA_FILE"
+          echo "ipa 产物: $IPA_FILE"
+          echo "ipa_path=$IPA_FILE" >> "$GITHUB_OUTPUT"
+          ls -lh "$IPA_FILE"
 
       # 7) 打印产物路径与大小(便于在 Actions 日志里直接看到体积/路径)
       - name: 打印产物信息
