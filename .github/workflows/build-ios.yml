@@ -68,9 +68,23 @@ jobs:
         id: build_ipa
         run: |
           set -e
-          # ExportOptions 声明未签名导出（TrollStore 用，无需开发者签名）
+          # flutter build ipa --no-codesign 会 archive，但新版 Flutter 在 --no-codesign 下
+          # 跳过 IPA 导出（只产 .xcarchive）。我们从 xcarchive 手动打包未签名 IPA（TrollStore 可装）。
           flutter build ipa --release --no-codesign --export-options-plist=ios/ExportOptions.plist 2>&1 | tee /tmp/build.log
-          IPA_FILE="$(ls build/ios/ipa/*.ipa | head -n1)"
+
+          IPA_FILE="$(ls build/ios/ipa/*.ipa 2>/dev/null | head -n1)"
+          if [ -z "$IPA_FILE" ]; then
+            echo "ipa 未产出（--no-codesign 跳过了 IPA 导出），从 xcarchive 手动打包"
+            APP_PATH="$(ls -d build/ios/archive/*.xcarchive/Products/Applications/*.app 2>/dev/null | head -1)"
+            test -n "$APP_PATH" -a -d "$APP_PATH"
+            echo "从 $APP_PATH 打包"
+            rm -rf Payload
+            mkdir -p Payload
+            cp -R "$APP_PATH" Payload/
+            mkdir -p build/ios/ipa
+            zip -qry build/ios/ipa/freader-unsigned.ipa Payload
+            IPA_FILE="build/ios/ipa/freader-unsigned.ipa"
+          fi
           test -n "$IPA_FILE"
           echo "ipa 产物: $IPA_FILE"
           echo "ipa_path=$IPA_FILE" >> "$GITHUB_OUTPUT"
