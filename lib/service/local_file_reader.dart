@@ -12,6 +12,7 @@ import 'package:freader/service/mobi/mobi_reader.dart';
 import 'package:freader/service/mobi/mobi_book.dart';
 import 'package:freader/service/mobi/kf6_book.dart';
 import 'package:freader/service/mobi/kf8_book.dart';
+import 'package:freader/service/dev/app_logger.dart';
 
 /// 本地文件读取器 - 支持 TXT/MD/HTML/EPUB/MOBI 格式
 class LocalFileReader {
@@ -410,6 +411,25 @@ class LocalFileReader {
     // 在 Isolate 中解析 MOBI，避免卡死主线程
     final mobiBook = await Isolate.run(() => MobiReader.read(bytes));
 
+    // 诊断：记录 MOBI 解析关键信息，排查"正文只显示几个字"
+    try {
+      final type = mobiBook.runtimeType.toString();
+      final version = mobiBook.mobi.version;
+      int sectionCount = -1;
+      if (mobiBook is KF6Book) {
+        sectionCount = mobiBook.sections.length;
+      } else if (mobiBook is KF8Book) {
+        sectionCount = mobiBook.sections.length;
+      }
+      appLog('MOBI解析 ${p.basename(filePath)}\n'
+          '  类型=$type version=$version sections=$sectionCount\n'
+          '  compression=${mobiBook.palmdoc.compression} '
+          'numTextRecords=${mobiBook.palmdoc.numTextRecords} '
+          'charset=${mobiBook.charset.name}');
+    } catch (e) {
+      appLog('MOBI解析诊断异常: $e', level: LogLevel.error);
+    }
+
     final metadata = mobiBook.metadata;
     String? coverPath;
 
@@ -486,17 +506,34 @@ class LocalFileReader {
         // 直接取整 section：getTextByHref 的 fragment 范围提取不准会导致只显示第一段
         final section = mobiBook.getSectionByHref(href);
         if (section != null) {
-          return _htmlToPlainText(mobiBook.getSectionText(section));
+          final raw = mobiBook.getSectionText(section);
+          final plain = _htmlToPlainText(raw);
+          // 诊断：raw 长度 vs 纯文本长度，定位"正文只剩几个字"丢在哪一步
+          final preview = plain.length > 60 ? plain.substring(0, 60) : plain;
+          appLog('MOBI读章(KF8) href=$href\n'
+              '  raw长度=${raw.length} 纯文本长度=${plain.length}\n'
+              '  预览=$preview');
+          return plain;
         }
+        appLog('MOBI读章(KF8) href=$href 未匹配到 section', level: LogLevel.error);
       } else if (mobiBook is KF6Book) {
         final section = mobiBook.getSectionByHref(href);
         if (section != null) {
-          return _htmlToPlainText(mobiBook.getSectionText(section));
+          final raw = mobiBook.getSectionText(section);
+          final plain = _htmlToPlainText(raw);
+          final preview = plain.length > 60 ? plain.substring(0, 60) : plain;
+          appLog('MOBI读章(KF6) href=$href\n'
+              '  raw长度=${raw.length} 纯文本长度=${plain.length}\n'
+              '  预览=$preview');
+          return plain;
         }
+        appLog('MOBI读章(KF6) href=$href 未匹配到 section', level: LogLevel.error);
       }
 
       return '暂无内容';
-    } catch (e) {
+    } catch (e, st) {
+      appLog('MOBI读章异常 href=$url\n  错误: $e\n  堆栈: $st',
+          level: LogLevel.error, persistImmediately: true);
       return '内容加载失败: $e';
     }
   }

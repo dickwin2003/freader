@@ -291,12 +291,46 @@ class _LocalImportPageState extends ConsumerState<LocalImportPage> {
         ),
         child: FilledButton.icon(
           onPressed: () async {
-            await ref.read(scanProvider.notifier).importSelected();
-            if (context.mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
+            final messenger = ScaffoldMessenger.of(context);
+            final notifier = ref.read(scanProvider.notifier);
+            await notifier.importSelected();
+            final errors = ref.read(scanProvider).importErrors;
+            if (!context.mounted) return;
+            if (errors.isEmpty) {
+              messenger.showSnackBar(
                 const SnackBar(content: Text('导入完成！')),
               );
               context.pop();
+            } else {
+              // 有文件导入失败：直接弹出原因，便于排查（详见「我的→开发者→日志」）
+              await showDialog<void>(
+                context: context,
+                builder: (ctx) => AlertDialog(
+                  title: Text('${errors.length} 个文件导入失败'),
+                  content: SizedBox(
+                    width: double.maxFinite,
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: errors
+                          .map((e) => Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 4),
+                                child: SelectableText(
+                                  e,
+                                  style: const TextStyle(fontSize: 12),
+                                ),
+                              ))
+                          .toList(),
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.of(ctx).pop(),
+                      child: const Text('知道了'),
+                    ),
+                  ],
+                ),
+              );
+              if (context.mounted) context.pop();
             }
           },
           icon: const Icon(Icons.download),

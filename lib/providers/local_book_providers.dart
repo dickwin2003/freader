@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path/path.dart' as p;
 import 'package:freader/service/file_scanner.dart';
 import 'package:freader/service/local_book_opener.dart';
+import 'package:freader/service/dev/app_logger.dart';
 import 'package:freader/providers/book_providers.dart';
 
 /// 文件扫描器 Provider
@@ -18,6 +20,8 @@ class ScanState {
   final int totalToImport;
   final String? error;
   final int foundCount;
+  /// 最近一次导入失败的文件及原因（诊断用，非空表示有文件没进书架）
+  final List<String> importErrors;
 
   const ScanState({
     this.isScanning = false,
@@ -28,6 +32,7 @@ class ScanState {
     this.totalToImport = 0,
     this.error,
     this.foundCount = 0,
+    this.importErrors = const [],
   });
 
   ScanState copyWith({
@@ -39,6 +44,7 @@ class ScanState {
     int? totalToImport,
     String? error,
     int? foundCount,
+    List<String>? importErrors,
   }) {
     return ScanState(
       isScanning: isScanning ?? this.isScanning,
@@ -49,6 +55,7 @@ class ScanState {
       totalToImport: totalToImport ?? this.totalToImport,
       error: error,
       foundCount: foundCount ?? this.foundCount,
+      importErrors: importErrors ?? this.importErrors,
     );
   }
 }
@@ -109,17 +116,23 @@ class ScanNotifier extends StateNotifier<ScanState> {
       isImporting: true,
       totalToImport: state.selectedPaths.length,
       importedCount: 0,
+      importErrors: const [],
     );
 
     final bookRepo = _ref.read(bookRepositoryProvider);
     final opener = LocalBookOpener(bookRepo);
     var count = 0;
+    final errors = <String>[];
 
     for (final path in state.selectedPaths) {
       try {
         await opener.openFile(path);
-      } catch (_) {
-        // 跳过导入失败的文件
+      } catch (e, st) {
+        // 不再静默吞掉：记录失败原因，便于诊断"导不进书架"
+        final msg = '${p.basename(path)} → $e';
+        errors.add(msg);
+        appLog('导入失败: $path\n  错误: $e\n  堆栈: $st',
+            level: LogLevel.error, persistImmediately: true);
       }
       count++;
       state = state.copyWith(importedCount: count);
@@ -131,6 +144,7 @@ class ScanNotifier extends StateNotifier<ScanState> {
     state = state.copyWith(
       isImporting: false,
       selectedPaths: const {},
+      importErrors: errors,
     );
   }
 }
