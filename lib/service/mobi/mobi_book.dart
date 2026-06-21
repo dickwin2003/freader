@@ -123,12 +123,14 @@ abstract class MobiBook {
     return builder.toBytes();
   }
 
+  /// 全量解压后的文本字节（缓存：避免每次 getTextBytes 都重复解压所有 text 记录）
+  late final Uint8List _allTextBytes = _getAllTextBytes();
+
   /// 获取指定范围的文本字节
   Uint8List getTextBytes(int start, int length) {
-    final allBytes = _getAllTextBytes();
-    final end = min(start + length, allBytes.length);
-    if (start >= allBytes.length) return Uint8List(0);
-    return Uint8List.fromList(allBytes.sublist(start, end));
+    final end = min(start + length, _allTextBytes.length);
+    if (start >= _allTextBytes.length) return Uint8List(0);
+    return Uint8List.fromList(_allTextBytes.sublist(start, end));
   }
 
   /// 获取资源记录

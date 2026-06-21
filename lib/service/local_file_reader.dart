@@ -12,6 +12,7 @@ import 'package:freader/service/mobi/mobi_reader.dart';
 import 'package:freader/service/mobi/mobi_book.dart';
 import 'package:freader/service/mobi/kf6_book.dart';
 import 'package:freader/service/mobi/kf8_book.dart';
+import 'package:freader/service/mobi/entities.dart';
 import 'package:freader/service/dev/app_logger.dart';
 
 /// 本地文件读取器 - 支持 TXT/MD/HTML/EPUB/MOBI 格式
@@ -445,38 +446,42 @@ class LocalFileReader {
       }
     } catch (_) {}
 
-    final chapters = <BookChapter>[];
-    // MOBI 统一按 sections 分章：内容用整 section（getSectionText），避免 KF8 fragment
-    // 范围提取（getTextByHref）不准导致"只显示第一页/段"。sections 覆盖整本书。
+    // 收集所有 section 的 href（KF6/KF8 统一）
+    final sectionHrefs = <String>[];
     if (mobiBook is KF6Book) {
-      final sections = mobiBook.sections;
-      for (int i = 0; i < sections.length; i++) {
-        chapters.add(BookChapter(
-          bookUrl: filePath,
-          title: '分段 $i',
-          url: sections[i].href,
-          index: i,
-          variable: 'mobi',
-        ));
-      }
+      sectionHrefs.addAll(mobiBook.sections.map((s) => s.href));
     } else if (mobiBook is KF8Book) {
-      final sections = mobiBook.sections;
-      for (int i = 0; i < sections.length; i++) {
-        chapters.add(BookChapter(
-          bookUrl: filePath,
-          title: '分段 $i',
-          url: sections[i].href,
-          index: i,
-          variable: 'mobi',
-        ));
+      sectionHrefs.addAll(mobiBook.sections.map((s) => s.href));
+    }
+
+    // 真实标题映射：从 mobi 内置 TOC 取 href -> label
+    final tocTitleMap = <String, String>{};
+    for (final t in (mobiBook.toc ?? const <TOC>[])) {
+      final label = t.label.trim();
+      if (label.isNotEmpty && t.href.isNotEmpty) {
+        tocTitleMap.putIfAbsent(t.href, () => label);
       }
     }
 
+    // 预提取每个 section 文本，过滤封面/插图/元数据等空内容章节，
+    // 避免打开书停在封面页（只显书名2字）或目录里出现 HTML 残片章节（alibre2"/>）。
+    final sectionTexts = <({String href, String text})>[];
+    for (final href in sectionHrefs) {
+      sectionTexts.add((href: href, text: readMobiChapterContent(mobiBook, href)));
+    }
+    final chapters = buildMobiChaptersFromPreview(
+      filePath: filePath,
+      sectionTexts: sectionTexts,
+      tocTitleMap: tocTitleMap,
+      fallbackTitle: metadata.title.isNotEmpty ? metadata.title : getFileName(filePath),
+    );
+
     if (chapters.isEmpty) {
+      // 极端兜底：所有 section 都被判空（不应发生），退回首个 section
       chapters.add(BookChapter(
         bookUrl: filePath,
         title: metadata.title.isNotEmpty ? metadata.title : getFileName(filePath),
-        url: '',
+        url: sectionHrefs.isNotEmpty ? sectionHrefs.first : '',
         index: 0,
         variable: 'mobi',
       ));
@@ -493,6 +498,30 @@ class LocalFileReader {
       mobiBook: mobiBook,
       kind: kindDesc,
     );
+  }
+
+  /// 从各 section 的预提取文本构建 mobi 章节列表，过滤掉内容为空的
+  /// 封面/插图/元数据页，并用书内 TOC 的真实标题。纯函数，便于单元测试。
+  static List<BookChapter> buildMobiChaptersFromPreview({
+    required String filePath,
+    required List<({String href, String text})> sectionTexts,
+    required Map<String, String> tocTitleMap,
+    required String fallbackTitle,
+    int minContentLength = 30,
+  }) {
+    final chapters = <BookChapter>[];
+    for (final s in sectionTexts) {
+      if (s.text.trim().length < minContentLength) continue;
+      final title = tocTitleMap[s.href]?.trim();
+      chapters.add(BookChapter(
+        bookUrl: filePath,
+        title: (title != null && title.isNotEmpty) ? title : '第 ${chapters.length + 1} 节',
+        url: s.href,
+        index: chapters.length,
+        variable: 'mobi',
+      ));
+    }
+    return chapters;
   }
 
   /// 读取 MOBI 章节内容
